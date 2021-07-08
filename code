@@ -1,0 +1,116 @@
+DATA SCIENCE AND BUSINESS ANALYTICS INTERN
+TASK 1 :- PREDICTION USING SUPERVISED MACHINE LEARNING
+BY :- SHUBHKANT DWIVEDI
+WHAT IS SUPERVISED MACHINE LEARNING ? THE ANSWER IS -> Supervised learning is the types of machine learning in which machines are trained using well labelled training data, and on basis of that data, machines predict the output. The labelled data means some input data is already tagged with the correct output.In supervised learning, the training data provided to the machines work as the supervisor that teaches the machines to predict the output correctly. It applies the same concept as a student learns in the supervision of the teacher.Supervised learning is a process of providing input data as well as correct output data to the machine learning model. The aim of a supervised learning algorithm is to find a mapping function to map the input variable(x) with the output variable(y).
+TASK DETAILS ARE
+THIS IS A SIMPLE LINEAR REGRESSION TASK WHERE WE PREDICT THE PERCENTAGE OF MARkS OBTAINED BY STUDENT BASED ON THE NUMBER OF HOURS THEY STUDIED
+IMPORTING LIBRARIES THAT WILL BE REQUIRED IN THIS TASK FOR THE PREDICTION
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+READING DATASET FROM THE PROVIDED LINK
+given_url="http://bit.ly/w-data"
+data_taken=pd.read_csv(given_url)
+print("THE DATA HAS BEEN TAKEN SUCCESSFULLY \n")
+print(data_taken)
+print("\n")
+print("THE TOP 10 ELEMENTS ARE")
+data_taken.head(10)
+THE DATA HAS BEEN TAKEN SUCCESSFULLY 
+
+    Hours  Scores
+0     2.5      21
+1     5.1      47
+2     3.2      27
+3     8.5      75
+4     3.5      30
+5     1.5      20
+6     9.2      88
+7     5.5      60
+8     8.3      81
+9     2.7      25
+10    7.7      85
+11    5.9      62
+12    4.5      41
+13    3.3      42
+14    1.1      17
+15    8.9      95
+16    2.5      30
+17    1.9      24
+18    6.1      67
+19    7.4      69
+20    2.7      30
+21    4.8      54
+22    3.8      35
+23    6.9      76
+24    7.8      86
+
+
+THE TOP 10 ELEMENTS ARE
+Hours	Scores
+0	2.5	21
+1	5.1	47
+2	3.2	27
+3	8.5	75
+4	3.5	30
+5	1.5	20
+6	9.2	88
+7	5.5	60
+8	8.3	81
+9	2.7	25
+PLOTTING THE DISTRIBUTION GRAPH OF SCORES
+data_taken.plot(x='Hours',y='Scores',style='*')
+plt.title('HOURS STUDIED VS MARKS SCORED')
+plt.xlabel('HOURS STUDIED')
+plt.ylabel('PERCENTAGE SCORE')
+plt.show()
+
+DIVIDING DATA INTO ATTRIBUTES THAT ARE INPUT AND LABELS THAT ARE OUTPUT
+x=data_taken.iloc[:,:-1].values
+y=data_taken.iloc[:,-1].values
+NOW SPLITING DATA INTO TEST AND TRAINING DATA USING THE TRAIN_TEST_SPLIT() METHOD
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0)
+NOW AFTER GETTING REQUIRED TRAIN AND TEST DATA LETS FINALLY TRAIN OUR ALGORITHM
+from sklearn.linear_model import LinearRegression as LR
+work=LR()
+work.fit(x_train,y_train)
+
+print("YOUR DATA HAS BEEN TAKEN SUCCESFULLY AND THE MODEL HAS BEEN TRAINED ACCORDINGLY")
+YOUR DATA HAS BEEN TAKEN SUCCESFULLY AND THE MODEL HAS BEEN TRAINED ACCORDINGLY
+NOW WE ARE GOING TO PLOT THE REGRESSION LINE FOR THE TEST DATA
+line_needed=work.coef_*x+work.intercept_
+plt.scatter(x,y)
+plt.plot(x,line_needed)
+plt.show()
+
+NOW WE ARE GOING TO MAKE SOME PREDICTIONS ON THE DATA
+print(x_test)
+y_predict=work.predict(x_test)
+[[1.5]
+ [3.2]
+ [7.4]
+ [2.5]
+ [5.9]]
+NOW LETS FIND OUT THE COMPARISON BETWEEN THE PREDICTED AND THE ACTUAL VALUE
+data_frame=pd.DataFrame({'ACTUAL':y_test,'PREDICTED':y_predict})
+print(data_frame)
+   ACTUAL  PREDICTED
+0      20  16.884145
+1      27  33.732261
+2      69  75.357018
+3      30  26.794801
+4      62  60.491033
+NOW LETS MAKE PREDICTIONS ON MY DATA TO CHECK THE WORKING OF MY MODEL
+hours=9.25
+my_predict=work.predict([[hours]])
+print("GIVEN HOURS ARE::{}".format(hours))
+print("FOR THE GIVEN HOURS THE PERCENTAGE WILL BE::{}".format(my_predict[0]))
+GIVEN HOURS ARE::9.25
+FOR THE GIVEN HOURS THE PERCENTAGE WILL BE::93.69173248737538
+CALCULATING THE MEAN ABSOLUTE ERROR
+from sklearn import metrics as mt
+print("THE MEAN ABSOLUTE ERROR PRESENT IS ::",mt.mean_absolute_error(y_test,y_predict))
+THE MEAN ABSOLUTE ERROR PRESENT IS :: 4.183859899002975
+THANK YOU !!
